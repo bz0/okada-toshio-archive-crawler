@@ -4,6 +4,7 @@
     use OkadaToshioArchiveCrawler\Crawler\Request;
     use OkadaToshioArchiveCrawler\Crawler\Login;
     use OkadaToshioArchiveCrawler\Crawler\Niconama\ArticleIndex;
+    use OkadaToshioArchiveCrawler\Crawler\Niconama\Section;
     use OkadaToshioArchiveCrawler\Domain\Models;
     use OkadaToshioArchiveCrawler\Crawler\SiteConfig;
 
@@ -37,4 +38,4 @@
     $login  = $req->execute(new Login(), $params)->getClient();
 
     $req = new Request($login);
-    $req->execute(new Login(), $params);
+    $req->execute(new Section(new Models\Section()), ['slug'=>'20210815-nicotext'])->scraper();
