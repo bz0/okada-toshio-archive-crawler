@@ -18,6 +18,6 @@
 
         public function execute(PageInterface $page, array $params)
         {
-            return $page->request($this->client, $params)->scraper();
+            return $page->request($this->client, $params);
         }
     }
