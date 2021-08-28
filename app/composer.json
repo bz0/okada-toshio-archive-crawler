@@ -1,0 +1,15 @@
+{
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.96",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OkadaToshioArchiveCrawler\\": "./src"
+        }
+    },
+    "require": {
+        "fabpot/goutte": "^4.0",
+        "guzzlehttp/guzzle": "^7.3"
+    }
+}
