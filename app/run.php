@@ -1,7 +1,7 @@
 <?php
     require_once dirname(__FILE__) . '/vendor/autoload.php';
 
-    use OkadaToshioArchiveCrawler\Crawler\Client;
+    use OkadaToshioArchiveCrawler\Crawler\Request;
     use OkadaToshioArchiveCrawler\Crawler\Login;
     use OkadaToshioArchiveCrawler\Crawler\Niconama\ArticleIndex;
     use OkadaToshioArchiveCrawler\Domain\Models;
@@ -21,7 +21,7 @@
     $articles = [];
     foreach($checkedCategories as $year){
         $params["checkedCategories"] = $year;
-        $client   = new Client(new GuzzleHttp\Client());
+        $client   = new Request(new GuzzleHttp\Client());
         $results  = $client->execute(new ArticleIndex(new Models\ArticleIndex()), $params)->scraper();
         $articles = array_merge($articles, $results);
     }
@@ -33,8 +33,8 @@
         "password" => $_ENV["PASSWORD"]
     ];
 
-    $client = new Client();
-    $login  = $client->execute(new Login(), $params)->getClient();
+    $req = new Request();
+    $login  = $req->execute(new Login(), $params)->getClient();
 
-    $client = new Client($login);
-    $client->execute(new Login(), $params)
+    $req = new Request($login);
+    $req->execute(new Login(), $params);

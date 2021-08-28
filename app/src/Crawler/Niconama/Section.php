@@ -5,27 +5,27 @@
     use OkadaToshioArchiveCrawler\Crawler\PageInterface;
     use OkadaToshioArchiveCrawler\Domain\Models;
 
-    class ArticleIndex implements PageInterface{
-        const PATH = "api/nicotext";
+    class Section implements PageInterface{
+        const PATH = "contents/detail/";
         const METHOD = "GET";
 
         private $response;
         private $url;
         private $model;
 
-        public function __construct(Models\ArticleIndex $model)
+        public function __construct(Models\Section $model)
         {
             $this->model = $model;
         }
 
-        public function generate_url($params): string
+        public function generate_url($slug): string
         {
-            return 'https://' . SiteConfig::DOMAIN . '/' . self::PATH . '?' . http_build_query($params);
+            return 'https://' . SiteConfig::DOMAIN . '/' . self::PATH . $slug;
         }
 
-        public function request($client, array $params): \OkadaToshioArchiveCrawler\Crawler\Niconama\ArticleIndex
+        public function request($client, $slug): \OkadaToshioArchiveCrawler\Crawler\Niconama\Section
         {
-            $this->url  = $this->generate_url($params);
+            $this->url  = $this->generate_url($slug);
             $this->response = $client->request(self::METHOD, $this->url);
 
             return $this;

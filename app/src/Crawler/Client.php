@@ -2,7 +2,7 @@
     namespace OkadaToshioArchiveCrawler\Crawler;
     use OkadaToshioArchiveCrawler\Crawler\PageInterface;
 
-    class Client
+    class Request
     {
         private $client;
 

@@ -1,10 +1,12 @@
 <?php
 namespace OkadaToshioArchiveCrawler\Domain\Models;
 
-class ArticleIndex {
+class Article {
     private $id;
     private $title;
     private $slug;
+    private $body_text;
+    private $body_html;
 
     public function setVariables($params)
     {
