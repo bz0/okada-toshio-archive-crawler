@@ -7,8 +7,9 @@ class Section {
     private $section_title;
     private $section_body_text;
     private $section_body_html;
+    private $movie_time;
 
-    public function setVariables($params)
+    public function setVariables(array $params)
     {
         foreach(array_keys(get_object_vars($this)) as $name)
         {

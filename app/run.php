@@ -38,4 +38,4 @@
     $login  = $req->execute(new Login(), $params)->getClient();
 
     $req = new Request($login);
-    $req->execute(new Section(new Models\Section()), ['slug'=>'20210815-nicotext'])->scraper();
+    $section_list = $req->execute(new Section(new Models\Section()), ['slug'=>'20210509-nicotext'])->scraper();
