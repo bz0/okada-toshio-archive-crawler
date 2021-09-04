@@ -9,7 +9,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: vtuber
+      MYSQL_DATABASE: okadatoshioarchive
       TZ: "Asia/Tokyo"
     ports: ["3306:3306"]
 

@@ -3,7 +3,7 @@
     
     use OkadaToshioArchiveCrawler\Crawler\SiteConfig;
     use OkadaToshioArchiveCrawler\Crawler\PageInterface;
-    use OkadaToshioArchiveCrawler\Domain\Models;
+    use OkadaToshioArchiveCrawler\Domain\Entities;
 
     class Article implements PageInterface{
         const PATH = "api/nicotext";
@@ -11,11 +11,13 @@
 
         private $response;
         private $url;
-        private $model;
+        private $article;
+        private $articles;
 
-        public function __construct(Models\Article $model)
+        public function __construct(Entities\Articles $articles, Entities\Article $article)
         {
-            $this->model = $model;
+            $this->articles = $articles;
+            $this->article = $article;
         }
 
         public function generate_url($params): string
@@ -31,7 +33,7 @@
             return $this;
         }
 
-        public function scraper(): array
+        public function scraper()
         {
             if (!$this->response)
             {
@@ -45,12 +47,19 @@
                 return false;
             }
 
-            $results = [];
             foreach($json[0]['records'] as $row) {
-                $this->model->setVariables($row);
-                $results[] = clone $this->model;
+                $this->article->setVariables($row);
+                $this->articles->add(clone $this->article);
             }
 
-            return $results; 
+            return $this;
+        }
+
+        /**
+         * @return Entities\Articles
+         */
+        public function get_articles(): Entities\Articles
+        {
+            return $this->articles;
         }
     }

@@ -3,7 +3,7 @@
     
     use OkadaToshioArchiveCrawler\Crawler\SiteConfig;
     use OkadaToshioArchiveCrawler\Crawler\PageInterface;
-    use OkadaToshioArchiveCrawler\Domain\Models;
+    use OkadaToshioArchiveCrawler\Domain\Entities;
 
     class Section implements PageInterface{
         const PATH = "contents/detail/";
@@ -12,12 +12,14 @@
 
         private $response;
         private $url;
-        private $model;
+        private $section;
+        private $article;
         private $slug;
 
-        public function __construct(Models\Section $model)
+        public function __construct(Entities\Section $section, Entities\Article $article)
         {
-            $this->model = $model;
+            $this->section = $section;
+            $this->article = $article;
         }
 
         public function generate_url($slug): string
@@ -74,11 +76,14 @@
             $results = [];
             if (count($section_title_list) === count($movie_time_list) && 
                 count($section_title_list) === count($section_body_html_list) &&
-                count($section_title_list) === count($movie_time_list)){
+                count($section_body_html_list) === count($movie_time_list)){
                 $results = $this->setValues($section_title_list, $movie_time_list, $section_body_html_list);
             }else{
                 throw new \Exception("目次のセクションと動画時間・本文の数が合っていません");
             }
+
+            $this->article->set_body_html($this->response->filter('.nicotext')->html());
+            $this->article->set_body_text($this->response->filter('.nicotext')->html());
 
             return $results; 
         }
@@ -87,7 +92,7 @@
         {
             $results = [];
             foreach($section_title_list as $i => $section_title){
-                $this->model->setVariables([
+                $this->section->setVariables([
                     'slug' => $this->slug,
                     'section_id' => $i,
                     'section_title' => $section_title,
@@ -95,7 +100,7 @@
                     'section_body_html' => isset($section_body_html_list[$i]) ? $section_body_html_list[$i] : '',
                     'movie_time' => isset($movie_time_list[$i]) ? $movie_time_list[$i] : ''
                 ]);
-                $results[] = clone $this->model;
+                $results[] = clone $this->section;
             }
 
             return $results;

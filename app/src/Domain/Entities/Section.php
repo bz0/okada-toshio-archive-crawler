@@ -1,5 +1,5 @@
 <?php
-namespace OkadaToshioArchiveCrawler\Domain\Models;
+namespace OkadaToshioArchiveCrawler\Domain\Entities;
 
 class Section {
     private $slug;

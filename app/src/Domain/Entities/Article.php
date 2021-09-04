@@ -1,8 +1,7 @@
 <?php
-namespace OkadaToshioArchiveCrawler\Domain\Models;
+namespace OkadaToshioArchiveCrawler\Domain\Entities;
 
 class Article {
-    private $id;
     private $title;
     private $slug;
     private $body_text;
@@ -21,5 +20,19 @@ class Article {
     public function getVariables(): array
     {   
         return get_object_vars($this);
+    }
+    
+    /**
+     * @param string $html
+     */
+    public function set_body_text(string $html){
+        $this->body_text = strip_tags($html);
+    }
+
+    /**
+     * @param string $html
+     */
+    public function set_body_html(string $html){
+        $this->body_html = $html;
     }
 }
