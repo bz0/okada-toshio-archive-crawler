@@ -33,9 +33,9 @@
             return $this;
         }
 
-        public function scraper(): array
+        public function scraper(): PageInterface
         {
-            return [];
+            return $this;
         }
 
         public function getClient()

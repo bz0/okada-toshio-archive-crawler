@@ -3,5 +3,5 @@
     
     interface PageInterface {
         public function request($client, array $params);
-        public function scraper();
+        public function scraper(): PageInterface;
     }

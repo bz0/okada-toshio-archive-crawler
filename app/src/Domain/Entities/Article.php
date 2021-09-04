@@ -21,7 +21,7 @@ class Article {
     {   
         return get_object_vars($this);
     }
-    
+
     /**
      * @param string $html
      */

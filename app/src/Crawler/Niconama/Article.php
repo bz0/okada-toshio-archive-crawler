@@ -33,7 +33,7 @@
             return $this;
         }
 
-        public function scraper()
+        public function scraper(): PageInterface
         {
             if (!$this->response)
             {

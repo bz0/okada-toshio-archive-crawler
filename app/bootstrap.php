@@ -5,7 +5,7 @@
     class_alias(Illuminate\Database\Capsule\Manager::class, 'DB');
     $db = new DB();
     $db->addConnection([
-        'driver'    => self::DRIVER,
+        'driver'    => 'mysql',
         'host'      => isset($_ENV['HOST']) ? $_ENV['HOST'] : 'localhost',
         'database'  => isset($_ENV['DATABASE']) ? $_ENV['DATABASE'] : 'database',
         'username'  => isset($_ENV['USERNAME']) ? $_ENV['USERNAME'] : 'root',

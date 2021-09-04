@@ -13,11 +13,13 @@
         private $response;
         private $url;
         private $section;
+        private $sections;
         private $article;
         private $slug;
 
-        public function __construct(Entities\Section $section, Entities\Article $article)
+        public function __construct(Entities\Sections $sections, Entities\Section $section, Entities\Article $article)
         {
+            $this->sections = $sections;
             $this->section = $section;
             $this->article = $article;
         }
@@ -36,7 +38,7 @@
             return $this;
         }
 
-        public function scraper(): array
+        public function scraper(): PageInterface
         {
             if (!$this->response)
             {
@@ -73,11 +75,10 @@
                 }
             });
 
-            $results = [];
             if (count($section_title_list) === count($movie_time_list) && 
                 count($section_title_list) === count($section_body_html_list) &&
                 count($section_body_html_list) === count($movie_time_list)){
-                $results = $this->setValues($section_title_list, $movie_time_list, $section_body_html_list);
+                $this->setValues($section_title_list, $movie_time_list, $section_body_html_list);
             }else{
                 throw new \Exception("目次のセクションと動画時間・本文の数が合っていません");
             }
@@ -85,7 +86,7 @@
             $this->article->set_body_html($this->response->filter('.nicotext')->html());
             $this->article->set_body_text($this->response->filter('.nicotext')->html());
 
-            return $results; 
+            return $this;
         }
 
         private function setValues(array $section_title_list, array $movie_time_list, array $section_body_html_list): array
@@ -100,9 +101,19 @@
                     'section_body_html' => isset($section_body_html_list[$i]) ? $section_body_html_list[$i] : '',
                     'movie_time' => isset($movie_time_list[$i]) ? $movie_time_list[$i] : ''
                 ]);
-                $results[] = clone $this->section;
+                $this->sections->add(clone $this->section);
             }
 
             return $results;
+        }
+
+        public function get_sections()
+        {
+            return $this->sections;
+        }
+
+        public function get_article()
+        {
+            return $this->article;
         }
     }
